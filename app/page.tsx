@@ -12,56 +12,73 @@ import Footer from '@/components/Footer';
 
 const projects = [
   {
-    title: 'Alumni Connect Platform',
-    description: 'An AI‑driven platform to connect students with alumni mentors in real time.',
-    imgSrc: '/projects/alumni-connect.png',
-    href: '#',
-    details: {
-      longDescription: `Built for the Rajasthan Technical Education Department hackathon, this platform leverages NLP to match student queries to alumni expertise. Features include live chat, scheduled video calls, and a searchable mentor directory.`,
-      images: [
-        '/projects/alumni-1.png',
-        '/projects/alumni-2.png',
-        '/projects/alumni-3.png',
+    "title": "Realtime Chat App",
+    "description": "A MERN-based realtime chat application with Socket.io integration, featuring user authentication, private and group chats, and responsive design.",
+    "imgSrc": "/images/chat-app.png",
+    "href": "https://your-chat-app.herokuapp.com",
+    "details": {
+      "longDescription": "Built with Node.js, Express, MongoDB, and React, this chat app allows users to create private or group conversations in realtime. Implemented JWT-based authentication and deployed on Heroku.",
+      "images": [
+        "/images/chat-screenshot1.png",
+        "/images/chat-screenshot2.png"
       ],
-      techStack: ['Next.js', 'React', 'Tailwind CSS', 'Node.js', 'TensorFlow.js'],
-      repoLink: 'https://github.com/yourusername/alumni-connect',
-      liveLink: 'https://alumni-connect.example.com',
-    },
+      "techStack": [
+        "React",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Socket.io"
+      ],
+      "repoLink": "https://github.com/98ZAFAR/chat-in",
+      "liveLink": "https://chatin.zafardev.me"
+    }
   },
   {
-    title: 'Real‑Time Chat App',
-    description: 'A scalable chat application with rooms, typing indicators, and read receipts.',
-    imgSrc: '/projects/chat-app.png',
-    href: '#',
-    details: {
-      longDescription: `This chat app uses WebSockets (Socket.io) to enable real-time messaging. Users can create rooms, see when others are typing, and get live delivery/read confirmations. Deployed on DigitalOcean with Docker containers.`,
-      images: [
-        '/projects/chat-1.png',
-        '/projects/chat-2.png',
+    "title": "Pen‑Mail (Slowly Clone)",
+    "description": "A pen‑pal application inspired by Slowly, featuring delayed message delivery based on geographic distance and collectible stamps.",
+    "imgSrc": "/images/pen-mail.png",
+    "href": "https://pen-mail.vercel.app",
+    "details": {
+      "longDescription": "Developed using the MERN stack, Pen‑Mail connects users as pen‑pals and simulates postal delays. Implemented matchmaking algorithm, inbox/outbox system, and a virtual stamp collection feature.",
+      "images": [
+        "/images/penmail-screenshot1.png",
+        "/images/penmail-screenshot2.png"
       ],
-      techStack: ['React', 'Node.js', 'Socket.io', 'Express', 'MongoDB'],
-      repoLink: 'https://github.com/yourusername/chat-app',
-      liveLink: 'https://chat-app.example.com',
-    },
+      "techStack": [
+        "React",
+        "Node.js",
+        "Express",
+        "MongoDB"
+      ],
+      "repoLink": "https://github.com/98ZAFAR/pen-mail",
+      "liveLink": "https://pen-mail.vercel.app"
+    }
   },
   {
-    title: 'Portfolio Website',
-    description: 'A personal portfolio showcasing projects, blog posts, and skills.',
-    imgSrc: '/projects/portfolio.png',
-    href: '#',
-    details: {
-      longDescription: `My own portfolio built with Next.js and Tailwind CSS. Includes dark mode toggle, animated sections, and a contact form. Content is statically generated for maximum performance.`,
-      images: [
-        '/projects/portfolio-1.png',
-        '/projects/portfolio-2.png',
-        '/projects/portfolio-3.png',
+    "title": "Blogging Website",
+    "description": "A full‑featured blogging platform with user authentication, post creation/editor, and search/filter capabilities.",
+    "imgSrc": "/images/blogging.png",
+    "href": "https://my-blog-app.com",
+    "details": {
+      "longDescription": "This blogging site allows users to register, write, edit, and delete posts. Built with Node.js and MySQL using Sequelize, and styled with Tailwind CSS. Deployed on AWS.",
+      "images": [
+        "/images/blog-screenshot1.png",
+        "/images/blog-screenshot2.png"
       ],
-      techStack: ['Next.js', 'Tailwind CSS', 'Framer Motion'],
-      repoLink: 'https://github.com/yourusername/portfolio',
-      liveLink: 'https://yourdomain.com',
-    },
-  },
+      "techStack": [
+        "React",
+        "Node.js",
+        "Express",
+        "MySQL",
+        "Sequelize",
+        "Tailwind CSS"
+      ],
+      "repoLink": "https://github.com/98ZAFAR/BloggingProjectBackend",
+      "liveLink": "https://my-blog-app.com"
+    }
+  }
 ];
+
 
 export default function Home() {
   return (

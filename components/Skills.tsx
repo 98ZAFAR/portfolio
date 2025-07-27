@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function SkillsSection() {
   const skills = [
-    'JavaScript', 'TypeScript', 'React', 'Next.js',
-    'Node.js', 'Tailwind CSS', 'VHDL', 'Graph Theory'
+    'C++', 'JavaScript', 'TypeScript', 'React', 'Next.js',
+    'Node.js', 'Tailwind CSS', 'Python', 'React Native', 'MySQL',
   ];
 
   return (
@@ -26,7 +26,7 @@ export default function SkillsSection() {
       </div>
 
       {/* Skill Badges */}
-      <ul className="mt-8 flex flex-wrap justify-center gap-4">
+      <ul className="mt-8 flex flex-wrap justify-center gap-4 hover:cursor-pointer">
         {skills.map((skill) => (
           <li
             key={skill}

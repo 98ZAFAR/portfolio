@@ -7,19 +7,19 @@ import { useInView } from 'react-intersection-observer';
 export default function ExperienceSection() {
   const experiences = [
     {
-      date: 'Jul 2024 – Present',
-      title: 'GovTech Hackathon',
-      desc: 'Built an AI‑powered alumni platform for Rajasthan Technical Education Dept.',
+      date: 'Dec 2024 - Jan 2025',
+      title: 'SIH Hackathon',
+      desc: 'Built an AI‑powered alumni platform for Rajasthan Technical Education Dept with my team. Got selected at college level.',
     },
     {
-      date: 'Mar 2024 – Jun 2024',
-      title: 'Intern @ Tech Startup',
-      desc: 'Developed Next.js dashboard & real‑time data visualizations.',
+      date: 'April 2025 - May 2025',
+      title: 'AI/ML Mini Project',
+      desc: 'Developed a machine learning model for predicting emotional quotient through facial expressions with help from my team.',
     },
     {
-      date: 'Sep 2023 – Feb 2024',
-      title: 'Undergrad Research',
-      desc: 'Published a paper on VHDL optimization techniques.',
+      date: 'Jul 2025 - Jul 2025',
+      title: 'JPMC Code for Good',
+      desc: 'Participated in a hackathon focused on developing solutions for social impact. Worked on a project that empowers rural women leadership and artisans.',
     },
   ];
 
