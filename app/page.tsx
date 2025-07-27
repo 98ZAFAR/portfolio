@@ -1,103 +1,89 @@
-import Image from "next/image";
+'use client';
+
+import React from 'react';
+import Navbar from '@/components/Navbar';
+import Hero from '@/components/Hero';
+import Projects from '@/components/Projects';
+import About from '@/components/About';
+import SkillsSection from '@/components/Skills';
+import TechCarousel from '@/components/TechCarousel';
+import ExperienceSection from '@/components/Experience';
+import Footer from '@/components/Footer';
+
+const projects = [
+  {
+    title: 'Alumni Connect Platform',
+    description: 'An AI‑driven platform to connect students with alumni mentors in real time.',
+    imgSrc: '/projects/alumni-connect.png',
+    href: '#',
+    details: {
+      longDescription: `Built for the Rajasthan Technical Education Department hackathon, this platform leverages NLP to match student queries to alumni expertise. Features include live chat, scheduled video calls, and a searchable mentor directory.`,
+      images: [
+        '/projects/alumni-1.png',
+        '/projects/alumni-2.png',
+        '/projects/alumni-3.png',
+      ],
+      techStack: ['Next.js', 'React', 'Tailwind CSS', 'Node.js', 'TensorFlow.js'],
+      repoLink: 'https://github.com/yourusername/alumni-connect',
+      liveLink: 'https://alumni-connect.example.com',
+    },
+  },
+  {
+    title: 'Real‑Time Chat App',
+    description: 'A scalable chat application with rooms, typing indicators, and read receipts.',
+    imgSrc: '/projects/chat-app.png',
+    href: '#',
+    details: {
+      longDescription: `This chat app uses WebSockets (Socket.io) to enable real-time messaging. Users can create rooms, see when others are typing, and get live delivery/read confirmations. Deployed on DigitalOcean with Docker containers.`,
+      images: [
+        '/projects/chat-1.png',
+        '/projects/chat-2.png',
+      ],
+      techStack: ['React', 'Node.js', 'Socket.io', 'Express', 'MongoDB'],
+      repoLink: 'https://github.com/yourusername/chat-app',
+      liveLink: 'https://chat-app.example.com',
+    },
+  },
+  {
+    title: 'Portfolio Website',
+    description: 'A personal portfolio showcasing projects, blog posts, and skills.',
+    imgSrc: '/projects/portfolio.png',
+    href: '#',
+    details: {
+      longDescription: `My own portfolio built with Next.js and Tailwind CSS. Includes dark mode toggle, animated sections, and a contact form. Content is statically generated for maximum performance.`,
+      images: [
+        '/projects/portfolio-1.png',
+        '/projects/portfolio-2.png',
+        '/projects/portfolio-3.png',
+      ],
+      techStack: ['Next.js', 'Tailwind CSS', 'Framer Motion'],
+      repoLink: 'https://github.com/yourusername/portfolio',
+      liveLink: 'https://yourdomain.com',
+    },
+  },
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+    <>
+      <Navbar />
+      <main
+        className="
+          min-h-screen
+          bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]
+          text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)]
+          flex flex-col items-center
+          px-4 py-28
+        "
+      >
+        <Hero />
+        <Projects projects={projects} />
+        <SkillsSection />
+        <TechCarousel />
+        <ExperienceSection />
+        <About />
+        <Footer />
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }
