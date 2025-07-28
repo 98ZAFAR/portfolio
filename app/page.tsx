@@ -9,18 +9,19 @@ import SkillsSection from '@/components/Skills';
 import TechCarousel from '@/components/TechCarousel';
 import ExperienceSection from '@/components/Experience';
 import Footer from '@/components/Footer';
+import { Contact } from '@/components/Contact';
 
 const projects = [
   {
     "title": "Realtime Chat App",
     "description": "A MERN-based realtime chat application with Socket.io integration, featuring user authentication, private and group chats, and responsive design.",
-    "imgSrc": "/images/chat-app.png",
+    "imgSrc": "/images/chatin_4.png",
     "href": "https://your-chat-app.herokuapp.com",
     "details": {
       "longDescription": "Built with Node.js, Express, MongoDB, and React, this chat app allows users to create private or group conversations in realtime. Implemented JWT-based authentication and deployed on Heroku.",
       "images": [
-        "/images/chat-screenshot1.png",
-        "/images/chat-screenshot2.png"
+        "/images/chatin_2.png",
+        "/images/chatin_3.png"
       ],
       "techStack": [
         "React",
@@ -51,7 +52,6 @@ const projects = [
         "MongoDB"
       ],
       "repoLink": "https://github.com/98ZAFAR/pen-mail",
-      "liveLink": "https://pen-mail.vercel.app"
     }
   },
   {
@@ -74,7 +74,6 @@ const projects = [
         "Tailwind CSS"
       ],
       "repoLink": "https://github.com/98ZAFAR/BloggingProjectBackend",
-      "liveLink": "https://my-blog-app.com"
     }
   }
 ];
@@ -99,6 +98,7 @@ export default function Home() {
         <TechCarousel />
         <ExperienceSection />
         <About />
+        <Contact />
         <Footer />
       </main>
     </>

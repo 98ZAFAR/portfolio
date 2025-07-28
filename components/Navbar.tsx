@@ -50,14 +50,14 @@ export default function Navbar() {
           <ul className="hidden lg:flex space-x-2 z-10">
             {links.map(label => (
               <li key={label} className={linkClasses}>
-                <a href={label === 'Home' ? '/' : `/${label.toLowerCase()}`}>
+                <a href={label === 'Home' ? '/' : `#${label.toLowerCase()}`}>
                   {label}
                 </a>
               </li>
             ))}
             <li>
               <a
-                href="/contact"
+                href="#contact"
                 className="
                   inline-block px-5 py-2 rounded-full
                   bg-[var(--color-primary)] text-white font-semibold
@@ -141,7 +141,7 @@ export default function Navbar() {
           {links.map(label => (
             <a
               key={label}
-              href={label === 'Home' ? '/' : `/${label.toLowerCase()}`}
+              href={label === 'Home' ? '/' : `#${label.toLowerCase()}`}
               className={linkClasses}
               onClick={() => setMenuOpen(false)}
             >
