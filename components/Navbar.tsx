@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import ToggleTheme from './ToggleTheme';
 import { FiMenu, FiX, FiGithub, FiLinkedin } from 'react-icons/fi';
+import Link from 'next/link';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -34,7 +35,7 @@ export default function Navbar() {
           </div>
 
           {/* Logo */}
-          <a
+          <Link
             href="/"
             className="
               relative z-10 text-2xl md:text-3xl font-extrabold
@@ -44,19 +45,19 @@ export default function Navbar() {
             "
           >
             Portfolio
-          </a>
+          </Link>
 
           {/* Desktop Links */}
           <ul className="hidden lg:flex space-x-2 z-10">
             {links.map(label => (
               <li key={label} className={linkClasses}>
-                <a href={label === 'Home' ? '/' : `#${label.toLowerCase()}`}>
+                <Link href={label === 'Home' ? '/' : `#${label.toLowerCase()}`}>
                   {label}
-                </a>
+                </Link>
               </li>
             ))}
             <li>
-              <a
+              <Link
                 href="#contact"
                 className="
                   inline-block px-5 py-2 rounded-full
@@ -65,7 +66,7 @@ export default function Navbar() {
                 "
               >
                 Get in Touch
-              </a>
+              </Link>
             </li>
           </ul>
 
@@ -74,20 +75,20 @@ export default function Navbar() {
             <ToggleTheme />
 
             <div className="hidden lg:flex space-x-3 text-xl">
-              <a
+              <Link
                 href="https://github.com/98ZAFAR"
                 aria-label="GitHub"
                 className="text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] hover:text-[var(--color-accent)] transition-colors"
               >
                 <FiGithub />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="https://linkedin.com/in/mohammad-zafar-bb62aa169/"
                 aria-label="LinkedIn"
                 className="text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] hover:text-[var(--color-accent)] transition-colors"
               >
                 <FiLinkedin />
-              </a>
+              </Link>
             </div>
 
             <button
@@ -139,31 +140,31 @@ export default function Navbar() {
 
         <div className="flex flex-col items-center h-full pt-20">
           {links.map(label => (
-            <a
+            <Link
               key={label}
               href={label === 'Home' ? '/' : `#${label.toLowerCase()}`}
               className={linkClasses}
               onClick={() => setMenuOpen(false)}
             >
               {label}
-            </a>
+            </Link>
           ))}
 
           <div className="mt-auto mb-8 px-4 flex space-x-4 text-2xl">
-            <a
+            <Link
               href="https://github.com/98ZAFAR"
               aria-label="GitHub"
               className="text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] hover:text-[var(--color-accent)] transition-colors"
             >
               <FiGithub />
-            </a>
-            <a
+            </Link>
+            <Link
               href="https://linkedin.com/in/mohammad-zafar-bb62aa169/"
               aria-label="LinkedIn"
               className="text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] hover:text-[var(--color-accent)] transition-colors"
             >
               <FiLinkedin />
-            </a>
+            </Link>
           </div>
         </div>
       </aside>

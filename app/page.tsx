@@ -56,7 +56,7 @@ const projects = [
   },
   {
     "title": "Blogging Website",
-    "description": "A full‑featured blogging platform with user authentication, post creation/editor, and search/filter capabilities.",
+    "description": "A full-featured blogging platform with user authentication, post creation/editor, and search/filter capabilities.",
     "imgSrc": "/images/blogging.png",
     "href": "https://my-blog-app.com",
     "details": {
