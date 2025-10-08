@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import ToggleTheme from './ToggleTheme';
-import { FiMenu, FiX, FiGithub, FiLinkedin } from 'react-icons/fi';
+import { FiMenu, FiX, FiGithub, FiLinkedin, FiDownload } from 'react-icons/fi';
 import Link from 'next/link';
 
 export default function Navbar() {
@@ -20,11 +20,11 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50">
+      <header className="fixed top-0 left-0 w-full z-50 overflow-x-hidden" data-scroll="smooth">
         <nav
           className="
             relative flex items-center justify-between max-w-6xl mx-auto
-            px-6 py-4 bg-[var(--color-bg-light)]/70 dark:bg-[var(--color-bg-dark)]/70
+            px-4 sm:px-6 py-4 bg-[var(--color-bg-light)]/70 dark:bg-[var(--color-bg-dark)]/70
             backdrop-blur-lg border-b border-[var(--color-border)]
             transition-colors duration-300 rounded-b-lg
           "
@@ -39,6 +39,7 @@ export default function Navbar() {
             href="/"
             className="
               relative z-10 text-2xl md:text-3xl font-extrabold
+              pl-2
               text-[var(--color-primary)]
               hover:text-[var(--color-accent)]
               transition-colors duration-200
@@ -72,9 +73,19 @@ export default function Navbar() {
 
           {/* Theme toggle + social + hamburger */}
           <div className="flex items-center space-x-4 z-10">
-            <ToggleTheme />
+            <div className="hidden lg:flex lg:justify-center lg:items-center space-x-3 text-xl">
+              <Link
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Download Resume"
+                className="flex justify-center items-center gap-1 text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] hover:text-[var(--color-accent)] transition-colors"
+              >
+                <FiDownload />
+                <p className='text-md'>Resume</p>
+              </Link>
+              <ToggleTheme />
 
-            <div className="hidden lg:flex space-x-3 text-xl">
               <Link
                 href="https://github.com/98ZAFAR"
                 aria-label="GitHub"
@@ -91,6 +102,9 @@ export default function Navbar() {
               </Link>
             </div>
 
+            <div className='block lg:hidden'>
+              <ToggleTheme />
+            </div>
             <button
               onClick={() => setMenuOpen(open => !open)}
               className="
@@ -122,6 +136,7 @@ export default function Navbar() {
           shadow-xl transform transition-transform duration-300 z-50
           ${menuOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
+        data-scroll="smooth"
       >
         {/* Close button inside the sidebar */}
         <div className="absolute top-4 right-4">
@@ -149,6 +164,16 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
+          <Link
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Download Resume"
+            className="flex justify-center items-center text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] hover:text-[var(--color-accent)] transition-colors"
+          >
+            <FiDownload />
+            <p className={linkClasses}>Resume</p>
+          </Link>
 
           <div className="mt-auto mb-8 px-4 flex space-x-4 text-2xl">
             <Link

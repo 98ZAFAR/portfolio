@@ -21,7 +21,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
   return (
     <section
       id="projects"
-      className="w-full max-w-6xl mx-auto mt-16 px-4 sm:px-6 lg:px-8"
+      className="w-full max-w-7xl mx-auto mt-16 px-4 sm:px-6 lg:px-8"
     >
       <h2 className="text-3xl font-bold text-center mb-12">
         Featured <span className="text-[var(--color-accent)]">Projects</span>
