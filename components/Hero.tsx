@@ -38,7 +38,7 @@ export default function Hero() {
       clearInterval(typingInterval);
       clearTimeout(pauseTimeout);
     };
-  }, []);
+  }, [fullText]);
 
   // Blinking cursor
   useEffect(() => {

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 type Project = {
@@ -46,14 +47,22 @@ export default function Projects({ projects }: { projects: Project[] }) {
               >
                 {/* Image */}
                 <div className="md:w-1/2 h-64 md:h-auto relative">
-                  <a href={proj.href} target="_blank" rel="noopener noreferrer">
-                    <img
-                      src={proj.imgSrc}
-                      alt={proj.title}
-                      className="object-cover w-full h-full"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <h3 className="absolute bottom-4 left-4 text-2xl font-semibold text-white drop-shadow-lg">
+                  <a href={proj.href} target="_blank" rel="noopener noreferrer" className="block relative w-full h-full">
+                    {proj.imgSrc && proj.imgSrc !== "/" ? (
+                      <Image
+                        src={proj.imgSrc}
+                        alt={proj.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-600 flex items-center justify-center">
+                        <span className="text-[var(--color-secondary)] font-semibold">No Image Available</span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10" />
+                    <h3 className="absolute bottom-4 left-4 text-2xl font-semibold text-white drop-shadow-lg z-20">
                       {proj.title}
                     </h3>
                   </a>
@@ -71,14 +80,24 @@ export default function Projects({ projects }: { projects: Project[] }) {
 
                     {/* Screenshots */}
                     <div className="grid grid-cols-2 gap-2">
-                      {proj.details.images.map((src, i) => (
-                        <img
-                          key={i}
-                          src={src}
-                          alt={`${proj.title} screenshot ${i + 1}`}
-                          className="w-full h-24 object-cover rounded-md"
-                        />
-                      ))}
+                      {proj.details.images
+                        .filter(src => src && src !== "/")
+                        .map((src, i) => (
+                          <div key={i} className="relative w-full h-24">
+                            <Image
+                              src={src}
+                              alt={`${proj.title} screenshot ${i + 1}`}
+                              fill
+                              className="object-cover rounded-md"
+                              sizes="(max-width: 768px) 50vw, 25vw"
+                            />
+                          </div>
+                        ))}
+                      {proj.details.images.filter(src => src && src !== "/").length === 0 && (
+                        <div className="col-span-2 text-center text-sm text-gray-500 py-4">
+                          Screenshots coming soon...
+                        </div>
+                      )}
                     </div>
 
                     {/* Tech Stack */}

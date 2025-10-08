@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -57,11 +58,13 @@ export default function TechCarousel() {
                   cursor-pointer mt-2 mb-2
                 "
               >
-                <img
+                <Image
                   src={src}
-                  alt=""
+                  alt={`Technology logo ${idx + 1}`}
+                  width={64}
+                  height={64}
                   className="
-                    h-12 md:h-16 object-contain
+                    h-12 md:h-16 w-auto object-contain
                     filter grayscale hover:grayscale-0
                     transition-all duration-300
                   "

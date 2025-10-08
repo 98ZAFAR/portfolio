@@ -54,15 +54,12 @@ const projects = [
     title: "Pen-Mail (Slowly Clone)",
     description:
       "A pen-pal application inspired by Slowly, featuring delayed message delivery based on geographic distance and collectible stamps.",
-    imgSrc: "#",
-    href: "#",
+    imgSrc: "",
+    href: "https://github.com/98ZAFAR/pen-mail",
     details: {
       longDescription:
         "Developed using the MERN stack, Pen-Mail connects users as pen-pals and simulates postal delays. Implemented matchmaking algorithm, inbox/outbox system, and a virtual stamp collection feature.",
-      images: [
-        "#",
-        "#",
-      ],
+      images: [],
       techStack: ["React", "Node.js", "Express", "MongoDB"],
       repoLink: "https://github.com/98ZAFAR/pen-mail",
     },

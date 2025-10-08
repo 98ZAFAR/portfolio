@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
 
+// EmailJS type interface
+interface EmailJSWindow extends Window {
+  emailjs?: {
+    send: (
+      serviceID: string,
+      templateID: string,
+      templateParams: Record<string, string>,
+      publicKey: string
+    ) => Promise<{ text: string }>;
+  };
+}
+
 export function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -24,20 +36,22 @@ export function Contact() {
 
     try {
       // EmailJS configuration - Replace with your actual EmailJS credentials
-      const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID; // Replace with your EmailJS service ID
-      const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID; // Replace with your EmailJS template ID
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY; // Replace with your EmailJS public key
+      const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
+      const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
+      const toEmail = process.env.NEXT_PUBLIC_EMAIL || 'your-email@example.com';
 
-      // Check if EmailJS is available
-      if (typeof window !== 'undefined' && (window as any).emailjs) {
-        const result = await (window as any).emailjs.send(
+      // Check if EmailJS is available and configured
+      if (typeof window !== 'undefined' && (window as EmailJSWindow).emailjs && 
+          serviceID !== 'YOUR_SERVICE_ID' && templateID !== 'YOUR_TEMPLATE_ID') {
+        const result = await (window as EmailJSWindow).emailjs!.send(
           serviceID,
           templateID,
           {
             from_name: formData.name,
             from_email: formData.email,
             message: formData.message,
-            to_email: process.env.NEXT_PUBLIC_EMAIL, // Replace with your email
+            to_email: toEmail,
           },
           publicKey
         );
@@ -54,7 +68,7 @@ export function Contact() {
         const body = encodeURIComponent(
           `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
         );
-        const mailtoLink = `mailto:${process.env.NEXT_PUBLIC_EMAIL}?subject=${subject}&body=${body}`;
+        const mailtoLink = `mailto:${toEmail}?subject=${subject}&body=${body}`;
         window.open(mailtoLink, '_blank');
         setSubmitStatus('success');
         setFormData({ name: '', email: '', message: '' });
@@ -113,7 +127,7 @@ export function Contact() {
         
         {submitStatus === 'success' && (
           <div className="text-green-600 text-center text-sm">
-            Message sent successfully! I'll get back to you soon.
+            Message sent successfully! I&apos;ll get back to you soon.
           </div>
         )}
         
