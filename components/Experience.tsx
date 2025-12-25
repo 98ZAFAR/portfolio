@@ -76,6 +76,11 @@ export default function ExperienceSection() {
       title: 'JPMC Code for Good',
       desc: 'Participated in a hackathon focused on developing solutions for social impact. Worked on a project that empowers rural women leadership and artisans.',
     },
+    {
+      date: 'November 2025',
+      title: 'HackSprint - National Level Hackathon',
+      desc: 'Won FIRST PRIZE at the national level hackathon! Worked with my amazing team to develop an innovative solution that impressed the judges and competed against teams from across the country.',
+    },
   ];
 
   return (
