@@ -77,9 +77,14 @@ export default function ExperienceSection() {
       desc: 'Participated in a hackathon focused on developing solutions for social impact. Worked on a project that empowers rural women leadership and artisans.',
     },
     {
-      date: 'November 2025',
+      date: 'Nov 2025',
       title: 'HackSprint - National Level Hackathon',
       desc: 'Won FIRST PRIZE at the national level hackathon! Worked with my amazing team to develop an innovative solution that impressed the judges and competed against teams from across the country.',
+    },
+    {
+      date: 'Dec 2025 - Present',
+      title: 'Miorish - E-commerce Partnership',
+      desc: 'Currently partnering with Miorish (miorish.com) to design and develop the frontend of their e-commerce platform using Next.js, delivering a modern and seamless shopping experience.',
     },
   ];
 

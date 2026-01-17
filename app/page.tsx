@@ -23,7 +23,7 @@ export default function Home() {
           bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]
           text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)]
           flex flex-col items-center
-          px-4 py-28 overflow-x-hidden
+          px-4 py-32 md:py-36 lg:py-40  overflow-x-hidden
         "
       >
         <Hero />

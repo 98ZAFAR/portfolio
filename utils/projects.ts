@@ -1,5 +1,23 @@
 const projects = [
   {
+    title: "Miorish - E-commerce Platform",
+    description:
+      "An e-commerce website where I'm currently in partnership, designing its frontend using Next.js.",
+    imgSrc: "/images/miorish_1.png",
+    href: "https://miorish.com",
+    details: {
+      longDescription:
+        "Partnered to design and develop the frontend of Miorish, a modern e-commerce platform. Built with Next.js to deliver a seamless shopping experience with responsive design, optimized performance, and intuitive user interfaces.",
+      images: [
+        "/images/miorish_2.png",
+        "/images/miorish_3.png",
+        "/images/miorish_4.png",
+      ],
+      techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+      liveLink: "https://miorish.com",
+    },
+  },
+  {
     title: "PixelBank - ML Coding Platform",
     description:
       "A machine learning coding platform where I worked as a frontend developer with my freelancing team using ReactJS.",

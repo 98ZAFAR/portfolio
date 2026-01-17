@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ToastContainer } from './Toast';
 
 // EmailJS type interface
 interface EmailJSWindow extends Window {
@@ -12,6 +13,12 @@ interface EmailJSWindow extends Window {
   };
 }
 
+interface Toast {
+  id: string;
+  message: string;
+  type: 'success' | 'error';
+}
+
 export function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -19,7 +26,16 @@ export function Contact() {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const addToast = (message: string, type: 'success' | 'error') => {
+    const id = Date.now().toString();
+    setToasts(prev => [...prev, { id, message, type }]);
+  };
+
+  const removeToast = (id: string) => {
+    setToasts(prev => prev.filter(toast => toast.id !== id));
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -32,7 +48,6 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus('idle');
 
     try {
       // EmailJS configuration - Replace with your actual EmailJS credentials
@@ -57,7 +72,7 @@ export function Contact() {
         );
 
         if (result.text === 'OK') {
-          setSubmitStatus('success');
+          addToast('Message sent successfully! I\'ll get back to you soon.', 'success');
           setFormData({ name: '', email: '', message: '' });
         } else {
           throw new Error('Failed to send email');
@@ -70,26 +85,28 @@ export function Contact() {
         );
         const mailtoLink = `mailto:${toEmail}?subject=${subject}&body=${body}`;
         window.open(mailtoLink, '_blank');
-        setSubmitStatus('success');
+        addToast('Message sent successfully! I\'ll get back to you soon.', 'success');
         setFormData({ name: '', email: '', message: '' });
       }
     } catch (error) {
       console.error('Error sending email:', error);
-      setSubmitStatus('error');
+      addToast('Failed to send message. Please try again or contact me directly.', 'error');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section
-      id="contact"
-      className="py-16 bg-[var(--color-bg-light)]/50 dark:bg-[var(--color-darkbg)]/50 px-4"
-    >
-      <h2 className="text-3xl font-bold text-center mb-6">
-        Get in <span className="text-[var(--color-accent)]">Touch</span>
-      </h2>
-      <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
+    <>
+      <ToastContainer toasts={toasts} removeToast={removeToast} />
+      <section
+        id="contact"
+        className="py-16 bg-[var(--color-bg-light)]/50 dark:bg-[var(--color-darkbg)]/50 px-4"
+      >
+        <h2 className="text-3xl font-bold text-center mb-6">
+          Get in <span className="text-[var(--color-accent)]">Touch</span>
+        </h2>
+        <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
         <input
           type="text"
           name="name"
@@ -124,19 +141,8 @@ export function Contact() {
         >
           {isSubmitting ? 'Sending...' : 'Send Message'}
         </button>
-        
-        {submitStatus === 'success' && (
-          <div className="text-green-600 text-center text-sm">
-            Message sent successfully! I&apos;ll get back to you soon.
-          </div>
-        )}
-        
-        {submitStatus === 'error' && (
-          <div className="text-red-600 text-center text-sm">
-            Failed to send message. Please try again or contact me directly.
-          </div>
-        )}
       </form>
     </section>
+    </>
   );
 }
