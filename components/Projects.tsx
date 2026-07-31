@@ -1,183 +1,186 @@
 'use client';
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { TiltCard3D } from './TiltCard3D';
 
-type Project = {
-  title: string;
-  description: string;
-  imgSrc: string;
-  href: string;
-  details: {
-    longDescription: string;
-    images: string[];
-    techStack: string[];
-    repoLink?: string;
-    liveLink?: string;
-  };
+const projectVariants = {
+  hidden: { opacity: 0, y: 50, filter: 'blur(10px)' },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.8,
+      ease: "easeOut" as const,
+    }
+  }
 };
 
-export default function Projects({ projects }: { projects: Project[] }) {
-  const [selectedProject, setSelectedProject] = useState<number | null>(null);
-  // const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+interface ProjectItem {
+  title: string;
+  description: string;
+  details?: {
+    longDescription?: string;
+    techStack?: string[];
+    illustration?: {
+      color: string;
+      icon: string;
+      pattern: string;
+    };
+  };
+}
+
+export default function Projects({ projects }: { projects: ProjectItem[] }) {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+  
+  // Parallax subtle shifts
+  const yEven = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const yOdd = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
-    <section
-      id="projects"
-      className="w-full max-w-7xl mx-auto mt-16 px-4 sm:px-6 lg:px-8"
-    >
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="mb-16 text-center"
-      >
-        <h2 className="text-3xl font-bold mb-2">
-          Featured <span className="text-[var(--color-primary)]">Projects</span>
-        </h2>
-        <p className="text-sm text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] opacity-70">
-          Crafting digital experiences with modern technologies
-        </p>
-      </motion.div>
+    <section ref={containerRef} className="py-section-gap max-w-container-max mx-auto px-gutter" id="projects">
+      <div className="text-center mb-stack-lg">
+        <span className="text-primary font-label-sm text-label-sm uppercase tracking-[0.2em] mb-4 block">Selected Works</span>
+        <h2 className="font-display-lg text-display-lg text-text">Gallery of Innovation</h2>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {projects.map((proj, idx) => (
-          <motion.article
-            key={proj.title}
-            className="group relative bg-white dark:bg-[var(--color-bg-dark)] rounded-2xl overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-primary)] transition-all duration-300"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: idx * 0.1 }}
-            // onHoverStart={() => setHoveredIndex(idx)}
-            // onHoverEnd={() => setHoveredIndex(null)}
-          >
-            {/* Image Container */}
-            <div className="relative h-64 overflow-hidden bg-gray-100 dark:bg-gray-800">
-              {proj.imgSrc && proj.imgSrc !== "/" ? (
-                <Image
-                  src={proj.imgSrc}
-                  alt={proj.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-sm text-gray-400">No Image Available</span>
-                </div>
-              )}
+      <div className="space-y-stack-lg">
+        {projects.map((project, index) => {
+          const isEven = index % 2 === 0;
+          const color = project.details?.illustration?.color || "#FB6339";
+          const icon = project.details?.illustration?.icon || "terminal";
+          const pattern = project.details?.illustration?.pattern || "dots";
+
+          return (
+            <motion.div
+              key={project.title}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={projectVariants}
+              style={{ y: isEven ? yEven : yOdd }}
+              className={`flex flex-col gap-8 md:gap-16 items-center ${
+                isEven ? 'md:flex-row' : 'md:flex-row-reverse'
+              }`}
+            >
+              <div className="w-full md:w-3/5">
+                <TiltCard3D className="group relative aspect-[2/1] md:aspect-[21/9] overflow-hidden rounded-2xl w-full flex items-center justify-center bg-bg border border-border" glowColor={color}>
+                  <div className="absolute inset-0 opacity-20" style={{ color }}>
+                    <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        {pattern === 'circles' && (
+                          <pattern id={`pattern-${index}`} x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <circle cx="20" cy="20" r="10" fill="none" stroke="currentColor" strokeWidth="1" />
+                          </pattern>
+                        )}
+                        {pattern === 'boxes' && (
+                          <pattern id={`pattern-${index}`} x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <rect x="10" y="10" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1" />
+                          </pattern>
+                        )}
+                        {pattern === 'grid' && (
+                          <pattern id={`pattern-${index}`} x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1"/>
+                          </pattern>
+                        )}
+                        {pattern === 'lines' && (
+                          <pattern id={`pattern-${index}`} x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                            <line x1="0" y1="0" x2="0" y2="40" stroke="currentColor" strokeWidth="2" />
+                          </pattern>
+                        )}
+                        {pattern === 'hexagons' && (
+                          <pattern id={`pattern-${index}`} x="0" y="0" width="60" height="103.923" patternUnits="userSpaceOnUse">
+                            <path d="M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32z" fill="none" stroke="currentColor" strokeWidth="1"/>
+                          </pattern>
+                        )}
+                        {pattern === 'waves' && (
+                          <pattern id={`pattern-${index}`} x="0" y="0" width="60" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M0 10 Q 15 0, 30 10 T 60 10" fill="none" stroke="currentColor" strokeWidth="1"/>
+                          </pattern>
+                        )}
+                        {(!pattern || pattern === 'dots') && (
+                          <pattern id={`pattern-${index}`} x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <circle cx="20" cy="20" r="1.5" fill="currentColor" />
+                          </pattern>
+                        )}
+                      </defs>
+                      <rect x="0" y="0" width="100%" height="100%" fill={`url(#pattern-${index})`} />
+                    </svg>
+                  </div>
+                  
+                  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <motion.div 
+                      className="absolute rounded-full opacity-20 mix-blend-screen blur-3xl"
+                      style={{ background: color, width: '40%', height: '80%', left: '10%', top: '10%' }}
+                      animate={{
+                        x: [0, 50, 0],
+                        y: [0, 30, 0],
+                        scale: [1, 1.2, 1],
+                      }}
+                      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <motion.div 
+                      className="absolute rounded-full opacity-20 mix-blend-screen blur-3xl"
+                      style={{ background: color, width: '30%', height: '60%', right: '10%', bottom: '10%' }}
+                      animate={{
+                        x: [0, -30, 0],
+                        y: [0, -40, 0],
+                        scale: [1, 1.5, 1],
+                      }}
+                      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                  </div>
+                  
+                  <div className="relative z-10 p-8 flex flex-col items-center justify-center text-center">
+                    <motion.div 
+                      className="w-24 h-24 rounded-2xl bg-surface/80 backdrop-blur-md border border-border shadow-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-500"
+                      style={{ color }}
+                      animate={{
+                        rotate: [0, 5, -5, 0],
+                        y: [0, -10, 0]
+                      }}
+                      transition={{
+                        duration: 6,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <span className="material-symbols-outlined text-5xl">
+                        {icon}
+                      </span>
+                    </motion.div>
+                    <div className="w-16 h-1 rounded-full group-hover:w-32 transition-all duration-500" style={{ background: color, opacity: 0.5 }}></div>
+                  </div>
+                </TiltCard3D>
+              </div>
               
-              {/* Overlay on hover */}
-              <motion.div 
-                className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                initial={false}
-              >
-                <motion.button
-                  onClick={() => setSelectedProject(selectedProject === idx ? null : idx)}
-                  className="px-6 py-2 bg-white dark:bg-[var(--color-bg-dark)] text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] rounded-full text-sm font-medium hover:bg-[var(--color-primary)] hover:text-white transition-colors duration-200"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {selectedProject === idx ? 'Show Less' : 'View Details'}
-                </motion.button>
-              </motion.div>
-            </div>
-
-            {/* Content */}
-            <div className="p-6">
-              <h3 className="text-xl font-semibold mb-2 text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)]">
-                {proj.title}
-              </h3>
-              <p className="text-sm text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] opacity-80 mb-4 line-clamp-2">
-                {proj.description}
-              </p>
-
-              {/* Tech Stack */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                {proj.details.techStack.slice(0, 4).map((tech) => (
-                  <span
-                    key={tech}
-                    className="text-xs px-3 py-1 bg-[var(--color-bg-light)] dark:bg-gray-800 text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] rounded-full border border-[var(--color-border)]"
-                  >
-                    {tech}
-                  </span>
-                ))}
-                {proj.details.techStack.length > 4 && (
-                  <span className="text-xs px-3 py-1 text-[var(--color-primary)]">
-                    +{proj.details.techStack.length - 4}
-                  </span>
-                )}
-              </div>
-
-              {/* Expandable Details */}
-              <motion.div
-                initial={false}
-                animate={{
-                  height: selectedProject === idx ? 'auto' : 0,
-                  opacity: selectedProject === idx ? 1 : 0,
-                }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <div className="pt-4 border-t border-[var(--color-border)] space-y-4">
-                  <p className="text-sm text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] leading-relaxed">
-                    {proj.details.longDescription}
-                  </p>
-
-                  {/* Additional Screenshots */}
-                  {proj.details.images.filter(src => src && src !== "/").length > 0 && (
-                    <div className="grid grid-cols-3 gap-2">
-                      {proj.details.images
-                        .filter(src => src && src !== "/")
-                        .map((src, i) => (
-                          <div key={i} className="relative w-full h-20 rounded-lg overflow-hidden border border-[var(--color-border)]">
-                            <Image
-                              src={src}
-                              alt={`${proj.title} screenshot ${i + 1}`}
-                              fill
-                              className="object-cover hover:scale-110 transition-transform duration-300"
-                              sizes="150px"
-                            />
-                          </div>
-                        ))}
-                    </div>
-                  )}
+              <div className="w-full md:w-2/5 flex flex-col justify-center">
+                <div className="flex gap-2 mb-4 flex-wrap">
+                  {project.details?.techStack?.map((tag: string) => (
+                    <span key={tag} className="text-label-sm font-label-sm px-3 py-1 bg-surface border border-border text-text-secondary rounded-full">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-              </motion.div>
-
-              {/* Action Buttons */}
-              <div className="flex gap-3 mt-4">
-                {proj.details.liveLink && (
-                  <motion.a
-                    href={proj.details.liveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 text-center px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary)]/90 transition-colors duration-200 text-sm font-medium"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Live Demo
-                  </motion.a>
-                )}
-                {proj.details.repoLink && (
-                  <motion.a
-                    href={proj.details.repoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 text-center px-4 py-2 rounded-lg border border-[var(--color-border)] text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors duration-200 text-sm font-medium"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Code
-                  </motion.a>
-                )}
+                <h3 className="font-headline-md text-headline-md text-text mb-4">{project.title}</h3>
+                <p className="text-text-secondary text-body-md mb-6 leading-relaxed">
+                  {project.details?.longDescription || project.description}
+                </p>
               </div>
-            </div>
-          </motion.article>
-        ))}
+            </motion.div>
+          );
+        })}
+      </div>
+      
+      <div className="mt-stack-lg flex justify-center">
+        <a href="#" className="px-8 py-4 border border-border text-text rounded-full hover:bg-surface/40 hover:border-primary/50 hover:text-primary transition-all magnetic-target cursor-pointer font-bold inline-block">
+          View Full Archive
+        </a>
       </div>
     </section>
   );

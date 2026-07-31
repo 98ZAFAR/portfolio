@@ -1,7 +1,9 @@
+'use client';
+
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { ToastContainer } from './Toast';
 
-// EmailJS type interface
 interface EmailJSWindow extends Window {
   emailjs?: {
     send: (
@@ -50,13 +52,11 @@ export function Contact() {
     setIsSubmitting(true);
 
     try {
-      // EmailJS configuration - Replace with your actual EmailJS credentials
       const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
       const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
       const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
       const toEmail = process.env.NEXT_PUBLIC_EMAIL || 'your-email@example.com';
 
-      // Check if EmailJS is available and configured
       if (typeof window !== 'undefined' && (window as EmailJSWindow).emailjs && 
           serviceID !== 'YOUR_SERVICE_ID' && templateID !== 'YOUR_TEMPLATE_ID') {
         const result = await (window as EmailJSWindow).emailjs!.send(
@@ -78,7 +78,6 @@ export function Contact() {
           throw new Error('Failed to send email');
         }
       } else {
-        // Fallback: Create mailto link
         const subject = encodeURIComponent(`Portfolio Contact: Message from ${formData.name}`);
         const body = encodeURIComponent(
           `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
@@ -99,50 +98,116 @@ export function Contact() {
   return (
     <>
       <ToastContainer toasts={toasts} removeToast={removeToast} />
-      <section
-        id="contact"
-        className="py-16 bg-[var(--color-bg-light)]/50 dark:bg-[var(--color-darkbg)]/50 px-4"
-      >
-        <h2 className="text-3xl font-bold text-center mb-6">
-          Get in <span className="text-[var(--color-accent)]">Touch</span>
-        </h2>
-        <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Your Name"
-          required
-          className="w-full px-4 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] transition"
-        />
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Your Email"
-          required
-          className="w-full px-4 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] transition"
-        />
-        <textarea
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          rows={5}
-          placeholder="Your Message"
-          required
-          className="w-full px-4 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] transition resize-none"
-        />
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full px-6 py-3 bg-[var(--color-primary)] text-white rounded-full hover:bg-[var(--color-accent)] transition-colors duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+      
+      <section className="py-section-gap max-w-container-max mx-auto px-gutter" id="contact">
+        <motion.div 
+          initial={{ opacity: 0, y: 30, filter: 'blur(5px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
         >
-          {isSubmitting ? 'Sending...' : 'Send Message'}
-        </button>
-      </form>
-    </section>
+          <div className="glass-card p-8 md:p-16 rounded-2xl grid md:grid-cols-2 gap-16 relative overflow-visible group">
+            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] -z-10 pointer-events-none"></div>
+            
+            <div className="relative z-10 pointer-events-auto">
+              <h2 className="font-display-lg text-display-lg mb-stack-md text-text">Initiate Collaboration.</h2>
+              <p className="text-text-secondary text-body-lg mb-8">
+                Have a vision that needs engineering? Let&apos;s build something that transcends the ordinary.
+              </p>
+              
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center text-primary">
+                    <span className="material-symbols-outlined">mail</span>
+                  </div>
+                  <div>
+                    <p className="text-label-sm text-text-secondary uppercase">Email</p>
+                    <p className="font-bold text-text">mdzafar.dev@gmail.com</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center text-sand-light">
+                    <span className="material-symbols-outlined">location_on</span>
+                  </div>
+                  <div>
+                    <p className="text-label-sm text-text-secondary uppercase">Base</p>
+                    <p className="font-bold text-text" data-location="San Francisco, CA">Global</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <form onSubmit={handleSubmit} className="space-y-6 relative z-10 pointer-events-auto">
+              <div className="relative">
+                <input 
+                  className="peer block w-full px-0 py-3 bg-transparent border-0 border-b-2 border-border text-text focus:ring-0 focus:border-primary transition-all cursor-text" 
+                  id="name" 
+                  name="name"
+                  placeholder=" " 
+                  type="text"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+                <label 
+                  className="absolute top-3 left-0 text-text-secondary origin-[0] -translate-y-6 scale-75 transform transition-all peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary pointer-events-none" 
+                  htmlFor="name"
+                >
+                  Full Name
+                </label>
+              </div>
+              
+              <div className="relative">
+                <input 
+                  className="peer block w-full px-0 py-3 bg-transparent border-0 border-b-2 border-border text-text focus:ring-0 focus:border-primary transition-all cursor-text" 
+                  id="email" 
+                  name="email"
+                  placeholder=" " 
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+                <label 
+                  className="absolute top-3 left-0 text-text-secondary origin-[0] -translate-y-6 scale-75 transform transition-all peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary pointer-events-none" 
+                  htmlFor="email"
+                >
+                  Email Address
+                </label>
+              </div>
+              
+              <div className="relative">
+                <textarea 
+                  className="peer block w-full px-0 py-3 bg-transparent border-0 border-b-2 border-border text-text focus:ring-0 focus:border-primary transition-all resize-none cursor-text" 
+                  id="message" 
+                  name="message"
+                  placeholder=" " 
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                ></textarea>
+                <label 
+                  className="absolute top-3 left-0 text-text-secondary origin-[0] -translate-y-6 scale-75 transform transition-all peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary pointer-events-none" 
+                  htmlFor="message"
+                >
+                  Your Message
+                </label>
+              </div>
+              
+              <button 
+                className="w-full py-4 bg-primary text-bg rounded-xl font-bold uppercase tracking-widest hover:bg-primary-light transition-colors magnetic-target disabled:opacity-50" 
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Transmitting...' : 'Transmit Message'}
+              </button>
+            </form>
+          </div>
+        </motion.div>
+      </section>
     </>
   );
 }

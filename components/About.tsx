@@ -1,61 +1,102 @@
 'use client';
 
-import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+
+// ── Animated Counter ──
+const AnimatedCounter = ({ value, duration = 2 }: { value: number; duration?: number }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const increment = value / (duration * 60);
+    const handle = setInterval(() => {
+      start += increment;
+      if (start >= value) {
+        setCount(value);
+        clearInterval(handle);
+      } else {
+        setCount(Math.ceil(start));
+      }
+    }, 1000 / 60);
+    return () => clearInterval(handle);
+  }, [value, duration]);
+
+  return <>{count}</>;
+};
 
 export default function About() {
-    const { ref, inView } = useInView({
-        triggerOnce: false,
-        threshold: 0.3,
-    });
+  return (
+    <section className="py-section-gap max-w-container-max mx-auto px-gutter" id="about">
+      <div className="grid md:grid-cols-2 gap-12 items-center">
 
-    return (
-        <motion.section 
-            ref={ref}
-            id="about" 
-            className="max-w-2xl text-center mt-20 space-y-4"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.6 }}
+        <motion.div
+          initial={{ opacity: 0, y: 30, filter: 'blur(5px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
         >
-            <motion.h2 
-                className="text-3xl font-bold"
-                initial={{ opacity: 0, y: -20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-            >
-                About <span className="text-[var(--color-primary)]">Me</span>
-            </motion.h2>
-            <motion.p 
-                className="text-lg leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-            >
-                I&apos;m a passionate and curious engineering student specializing in Information Technology at IIEST Shibpur, expected to graduate in 2027. I actively work on full-stack web development projects using the MERN stack and have a strong foundation in C++, Python, and JavaScript. Beyond academics, I&apos;m involved in building impactful tech solutions—from mental health platforms to coding fundraising websites—and love exploring areas like machine learning and system design. Always eager to learn, collaborate, and solve real-world problems through code.
-            </motion.p>
-            <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-            >
-                <Link
-                    href="#contact"
-                    className="
-                      inline-block mt-4 px-6 py-3 rounded-full
-                      border-2 border-[var(--color-primary)]
-                      text-[var(--color-primary)] font-medium
-                      hover:bg-[var(--color-primary)] hover:text-white
-                      hover:shadow-[0_0_20px_rgba(99,102,241,0.5)]
-                      transition-all duration-300
-                      transform hover:scale-105 active:scale-95
-                    "
-                >
-                    Let&apos;s Talk
-                </Link>
-            </motion.div>
-        </motion.section>
-    );
+          <span className="text-primary font-label-sm text-label-sm uppercase tracking-[0.2em] mb-4 block">Foundations</span>
+          <h2 className="font-display-lg text-display-lg text-text mb-stack-lg">Architecting the invisible layers of the web.</h2>
+          <p className="text-text-secondary text-body-lg mb-8 leading-relaxed">
+            I bridge the gap between complex engineering and fluid human interaction. My approach is rooted in mathematical precision and an obsession with detail, ensuring every pixel and every line of code serves a clear, aesthetic purpose.
+          </p>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="glass-card p-6 rounded-2xl relative overflow-hidden group">
+              <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="text-display-lg font-display-lg text-primary tabular-nums relative z-10 flex items-center">
+                <AnimatedCounter value={1} />
+                <span>+</span>
+              </div>
+              <div className="text-label-sm font-label-sm text-muted uppercase mt-1 relative z-10">Years Experience</div>
+            </div>
+            <div className="glass-card p-6 rounded-2xl relative overflow-hidden group">
+              <div className="absolute inset-0 bg-sand/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="text-display-lg font-display-lg text-sand-light tabular-nums relative z-10 flex items-center">
+                <AnimatedCounter value={20} />
+                <span>+</span>
+              </div>
+              <div className="text-label-sm font-label-sm text-muted uppercase mt-1 relative z-10">Projects Built</div>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 30, filter: 'blur(5px)' }}
+          whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative space-y-6"
+        >
+          <div className="glass-card p-8 rounded-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-primary text-xl">auto_awesome</span>
+                </div>
+                <h3 className="font-headline-md text-headline-md text-text">My Philosophy</h3>
+              </div>
+              <p className="text-text-secondary leading-relaxed">Code is poetry when optimized. I believe in performance first, followed by an interface so intuitive it feels like an extension of the user&apos;s thought.</p>
+            </div>
+          </div>
+
+          <div className="glass-card p-8 ml-4 rounded-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-sand/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-sand/10 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-sand-light text-xl">rocket_launch</span>
+                </div>
+                <h3 className="font-headline-md text-headline-md text-text">My Journey</h3>
+              </div>
+              <p className="text-text-secondary leading-relaxed">From low-level systems architecture to high-fidelity creative frontend work, I&apos;ve navigated the full spectrum of modern digital development.</p>
+            </div>
+          </div>
+        </motion.div>
+
+      </div>
+    </section>
+  );
 }

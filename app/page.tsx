@@ -5,36 +5,29 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Projects from '@/components/Projects';
 import About from '@/components/About';
-import SkillsSection from '@/components/Skills';
-import TechCarousel from '@/components/TechCarousel';
-import ExperienceSection from '@/components/Experience';
+import Tech from '@/components/Tech';
+import Experience from '@/components/Experience';
 import Footer from '@/components/Footer';
 import { Contact } from '@/components/Contact';
+import Cursor from '@/components/Cursor';
+import ThreeBackground from '@/components/ThreeBackground';
 import projects from '@/utils/projects';
 
 export default function Home() {
   return (
     <>
+      <ThreeBackground />
+      <Cursor />
       <Navbar />
-      <main
-        className="
-          min-h-screen
-          w-full max-w-full
-          bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]
-          text-[var(--color-fg-light)] dark:text-[var(--color-fg-dark)]
-          flex flex-col items-center
-          px-4 py-32 md:py-36 lg:py-40  overflow-x-hidden
-        "
-      >
+      <main className="w-full max-w-full overflow-x-hidden">
         <Hero />
-        <Projects projects={projects} />
-        <SkillsSection />
-        <TechCarousel />
-        <ExperienceSection />
         <About />
+        <Tech />
+        <Projects projects={projects} />
+        <Experience />
         <Contact />
-        <Footer />
       </main>
+      <Footer />
     </>
   );
 }
